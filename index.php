@@ -1,5 +1,40 @@
 <?php
 
+var_dump($_GET['pswLength']);
+var_dump(!empty($_GET['paswlength']));
+
+//funzione per generare la password
+function generatePassword($pswLength) {
+
+    //creo gli array da cui prendere gli elemnti per creare la password
+    $uppercase = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+    $lowercase = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    $numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    $symbols = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')'];
+
+    //mescolo insieme i caratteri
+    $characters = array_merge($uppercase, $lowercase, $numbers, $symbols);
+    var_dump($characters);
+    $charactersShuffled = $characters;
+    shuffle($charactersShuffled);
+    var_dump($charactersShuffled);
+
+
+    //generazione della password
+    $password = '';
+    for ($i = 1; $i <= $pswLength; $i++) {
+        $randomIndex = rand(0, count($characters) - 1);
+        var_dump($randomIndex);
+        $password .= $characters[$randomIndex];
+    }
+    var_dump($password);
+    return $password;
+}
+
+if (isset($_GET['pswLength']) && $_GET['pswLength'] !== 0 && !empty($_GET['pswLength'])) {
+    $password = generatePassword($_GET['pswLength']);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -17,8 +52,24 @@
         <h2 class="text-white text-center">Genera una password sicura</h2>
     </div>
     <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <?php if (!isset($_GET['pswLength']) || $_GET['pswLength'] == 0 || empty($_GET['pswLength'])) { ?>
+                    <div class="alert alert-primary">
+                        Parametri inseriti non validi.
+                    </div>
+                <?php } ?>
+                <?php if (isset($_GET['pswLength']) && $_GET['pswLength'] !== 0 && !empty($_GET['pswLength'])) { ?>
+                    <div class="alert alert-success">
+                        La tua password è: <?php echo $password; ?>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+    <div class="container">
         <!-- form -->
-        <div class="form mt-5 p-5 bg-light rounded">
+        <form class="form mt-5 p-5 bg-light rounded" action="index.php" method="GET">
             <div class="row">
                 <div class="col-7">
                     <label for="pswLength">Lunghezza password:</label>
@@ -63,7 +114,7 @@
                     <button type="reset" class="btn btn-secondary">Annulla</button>
                 </div>
             </div>
-        </div>
+</form>
     </div>
 </body>
 </html>
