@@ -10,6 +10,7 @@ include 'functions.php';
 if (isset($_GET['pswLength']) && $_GET['pswLength'] !== 0 && !empty($_GET['pswLength'])) {
     $password = generatePassword($_GET['pswLength']);
     $_SESSION['password'] = $password;
+    header('Location: ./result.php');
 }
 
 ?>
@@ -41,7 +42,7 @@ if (isset($_GET['pswLength']) && $_GET['pswLength'] !== 0 && !empty($_GET['pswLe
     </div>
     <div class="container">
         <!-- form -->
-        <form class="form mt-5 p-5 bg-light rounded" action="result.php" method="GET">
+        <form class="form mt-5 p-5 bg-light rounded" action="index.php" method="GET">
             <div class="row">
                 <div class="col-7">
                     <label for="pswLength">Lunghezza password:</label>

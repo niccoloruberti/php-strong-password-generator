@@ -1,7 +1,9 @@
 <?php
 
 session_start();
-
+if (empty($_SESSION)) {
+    header('Location: ./index.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -12,10 +14,8 @@ session_start();
     <title>Document</title>
 </head>
 <body>
-    <?php if (isset($_GET['pswLength']) && $_GET['pswLength'] !== 0 && !empty($_GET['pswLength'])) { ?>
         <div class="alert alert-success">
             La tua password è: <?php echo $_SESSION['password']; ?>
         </div>
-    <?php } ?>
 </body>
 </html>
